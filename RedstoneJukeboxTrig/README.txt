@@ -1,0 +1,1 @@
+RedstoneJukeboxTrig causes a jukebox to play the record in it whenever a redstone wire powers it directly.
