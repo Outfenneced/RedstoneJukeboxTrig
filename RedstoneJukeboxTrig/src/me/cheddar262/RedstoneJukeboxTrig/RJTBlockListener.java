@@ -17,11 +17,11 @@ public class RJTBlockListener implements Listener{
 	}
 	@EventHandler
 	public void onBlockRedstoneChange(BlockRedstoneEvent event){
-		Block Reds = event.getBlock();
-		checkPowerJukebox(Reds.getRelative(BlockFace.NORTH));
-		checkPowerJukebox(Reds.getRelative(BlockFace.SOUTH));
-		checkPowerJukebox(Reds.getRelative(BlockFace.WEST));
-		checkPowerJukebox(Reds.getRelative(BlockFace.EAST));
+		Block reds = (Block) event.getBlock();
+		checkPowerJukebox(reds.getRelative(BlockFace.NORTH));
+		checkPowerJukebox(reds.getRelative(BlockFace.SOUTH));
+		checkPowerJukebox(reds.getRelative(BlockFace.WEST));
+		checkPowerJukebox(reds.getRelative(BlockFace.EAST));
 	}
 	private void checkPowerJukebox (Block block){
 		if( block.getType() == Material.JUKEBOX){
