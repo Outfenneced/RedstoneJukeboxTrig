@@ -18,32 +18,32 @@ public class RJTBlockListener implements Listener{
 	@EventHandler
 	public void onBlockRedstoneChange(BlockRedstoneEvent event){
 		Block reds = (Block) event.getBlock();
-		checkPowerJukebox(reds.getRelative(BlockFace.NORTH));
-		checkPowerJukebox(reds.getRelative(BlockFace.SOUTH));
-		checkPowerJukebox(reds.getRelative(BlockFace.WEST));
-		checkPowerJukebox(reds.getRelative(BlockFace.EAST));
+		checkPowerJukebox(reds.getRelative(0,0,1));
+		checkPowerJukebox(reds.getRelative(0,0,-1));
+		checkPowerJukebox(reds.getRelative(1,0,0));
+		checkPowerJukebox(reds.getRelative(-1,0,0));
 	}
 	private void checkPowerJukebox (Block block){
 		if( block.getType() == Material.JUKEBOX){
-			boolean redPow = redPowerChecker(block);
-			if(redPow && (!block.isBlockPowered())){
-				Jukebox jukeBox = (Jukebox) block.getState();
-				String pos = jukeBox.getX() + "," + jukeBox.getY() + "," + jukeBox.getZ();
+			boolean redPower = redPowerChecker(block);
+			if(redPower && (!block.isBlockPowered())){
+				Jukebox jukebox = (Jukebox) block.getState();
+				String pos = jukebox.getWorld() + ", " + jukebox.getX() + ", " + jukebox.getY() + ", " + jukebox.getZ();
 				long StartTime = System.currentTimeMillis();
-				if(jukeBox.getPlaying() != Material.AIR)
-				{
+				Material playing = getPlaying(jukebox);
+				if(playing != Material.AIR){
 					if(RJTPlayerListener.posETime.containsKey(pos)){
 						long eTimeTwo = RJTPlayerListener.posETime.get(pos).longValue();
 						if(eTimeTwo <= (System.currentTimeMillis())){
-							long EndTime = RJTPlayerListener.findEndTime(StartTime, jukeBox.getPlaying());
+							long EndTime = RJTPlayerListener.findEndTime(StartTime, playing);
 							RJTPlayerListener.posETime.put(pos, EndTime);
-							jukeBox.setPlaying(jukeBox.getPlaying());
+							jukebox.setPlaying(playing);
 						}
 					}
 					else{
-						long EndTime = RJTPlayerListener.findEndTime(StartTime, jukeBox.getPlaying());
+						long EndTime = RJTPlayerListener.findEndTime(StartTime, playing);
 						RJTPlayerListener.posETime.put(pos, EndTime);
-						jukeBox.setPlaying(jukeBox.getPlaying());
+						jukebox.setPlaying(playing);
 					}
 				}
 			}
@@ -58,16 +58,16 @@ public class RJTBlockListener implements Listener{
 		boolean NW = false;
 		boolean SE = false;
 		boolean SW = false;
-		if((BlockNorthEastType != Material.REDSTONE_WIRE) && (BlockNorthEastType != Material.REDSTONE_TORCH_ON) && (BlockNorthEastType != Material.REDSTONE_TORCH_OFF) && (BlockNorthEastType != Material.WOOD_PLATE) && (BlockNorthEastType != Material.STONE_PLATE) && (BlockNorthEastType != Material.LEVER)) {
+		if((BlockNorthEastType != Material.REDSTONE_WIRE) && (BlockNorthEastType != Material.REDSTONE_TORCH_ON) && (BlockNorthEastType != Material.REDSTONE_TORCH_OFF) && (BlockNorthEastType != Material.WOOD_PLATE) && (BlockNorthEastType != Material.STONE_PLATE) && (BlockNorthEastType != Material.LEVER) && (BlockNorthEastType != Material.DIODE_BLOCK_OFF) && (BlockNorthEastType != Material.DIODE_BLOCK_ON)) {
 			NE = true;
 		}
-		if((BlockNorthWestType != Material.REDSTONE_WIRE) && (BlockNorthWestType != Material.REDSTONE_TORCH_ON) && (BlockNorthWestType != Material.REDSTONE_TORCH_OFF) && (BlockNorthWestType != Material.WOOD_PLATE) && (BlockNorthWestType != Material.STONE_PLATE) && (BlockNorthWestType != Material.LEVER)) {
+		if((BlockNorthWestType != Material.REDSTONE_WIRE) && (BlockNorthWestType != Material.REDSTONE_TORCH_ON) && (BlockNorthWestType != Material.REDSTONE_TORCH_OFF) && (BlockNorthWestType != Material.WOOD_PLATE) && (BlockNorthWestType != Material.STONE_PLATE) && (BlockNorthWestType != Material.LEVER) && (BlockNorthWestType != Material.DIODE_BLOCK_OFF) && (BlockNorthWestType != Material.DIODE_BLOCK_ON)) {
 			NW = true;
 		}
-		if((BlockSouthEastType != Material.REDSTONE_WIRE) && (BlockSouthEastType != Material.REDSTONE_TORCH_ON) && (BlockSouthEastType != Material.REDSTONE_TORCH_OFF) && (BlockSouthEastType != Material.WOOD_PLATE) && (BlockSouthEastType != Material.STONE_PLATE) && (BlockSouthEastType != Material.LEVER)) {
+		if((BlockSouthEastType != Material.REDSTONE_WIRE) && (BlockSouthEastType != Material.REDSTONE_TORCH_ON) && (BlockSouthEastType != Material.REDSTONE_TORCH_OFF) && (BlockSouthEastType != Material.WOOD_PLATE) && (BlockSouthEastType != Material.STONE_PLATE) && (BlockSouthEastType != Material.LEVER) && (BlockSouthEastType != Material.DIODE_BLOCK_OFF) && (BlockSouthEastType != Material.DIODE_BLOCK_ON)) {
 			SE = true;
 		}
-		if((BlockSouthWestType != Material.REDSTONE_WIRE) && (BlockSouthWestType != Material.REDSTONE_TORCH_ON) && (BlockSouthWestType != Material.REDSTONE_TORCH_OFF) && (BlockSouthWestType != Material.WOOD_PLATE) && (BlockSouthWestType != Material.STONE_PLATE) && (BlockSouthWestType != Material.LEVER)) {
+		if((BlockSouthWestType != Material.REDSTONE_WIRE) && (BlockSouthWestType != Material.REDSTONE_TORCH_ON) && (BlockSouthWestType != Material.REDSTONE_TORCH_OFF) && (BlockSouthWestType != Material.WOOD_PLATE) && (BlockSouthWestType != Material.STONE_PLATE) && (BlockSouthWestType != Material.LEVER) && (BlockSouthWestType != Material.DIODE_BLOCK_OFF) && (BlockSouthWestType != Material.DIODE_BLOCK_ON)) {
 			SW = true;
 		}
 		if(NE && NW && SE && SW){
@@ -75,5 +75,13 @@ public class RJTBlockListener implements Listener{
 		} else{
 			return false;
 		}
+	}
+	public Material getPlaying(Jukebox jb) {
+	    try {
+	        jb.getPlaying();
+	        return jb.getPlaying();
+	    } catch (Exception e) {
+	        return Material.AIR;
+	    }
 	}
 }

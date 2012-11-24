@@ -2,4 +2,4 @@ name: RedstoneJukeboxTrig
 main: me.cheddar262.RedstoneJukeboxTrig.RedstoneJukeboxTrig
 author: cheddar262
 description: This plugin causes a jukebox to play whenever a redstone wire powers it.
-version: 0.1.1
+version: 2.0.0

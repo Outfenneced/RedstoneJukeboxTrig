@@ -46,7 +46,7 @@ public class RJTPlayerListener implements Listener{
 					if(hand.getType() == Material.GREEN_RECORD || hand.getType() == Material.GOLD_RECORD || hand.getType() == Material.RECORD_3 || hand.getType() == Material.RECORD_4 || hand.getType() == Material.RECORD_5 || hand.getType() == Material.RECORD_6 || hand.getType() == Material.RECORD_7 || hand.getType() == Material.RECORD_8 || hand.getType() == Material.RECORD_9 || hand.getType() == Material.RECORD_10 || hand.getType() == Material.RECORD_11) //Made sure it's putting in a record and not taking it out. Also made sure it's a record that was inserted.
 					{
 						Material item = event.getMaterial();
-						String pos = block.getX() + "," + block.getY() + "," + block.getZ();
+						String pos = block.getWorld() + ", " + block.getX() + ", " + block.getY() + ", " + block.getZ();
 						StartTime = System.currentTimeMillis();
 						long endTime = findEndTime(StartTime, item);
 						posETime = hashIt(pos, endTime);

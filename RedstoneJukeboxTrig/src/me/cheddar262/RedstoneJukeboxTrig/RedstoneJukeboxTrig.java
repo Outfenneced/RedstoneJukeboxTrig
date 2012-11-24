@@ -20,6 +20,5 @@ public class RedstoneJukeboxTrig extends JavaPlugin{
 	public void onDisable() {
 		log.info("RedstoneJukeboxTrig has been disabled.");
 		
-	}
-	
+	}	
 }
