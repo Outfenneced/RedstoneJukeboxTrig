@@ -17,18 +17,18 @@ public class RedstoneJukeboxTrig extends JavaPlugin{
 	private final RJTPlayerListener playerListener = new RJTPlayerListener(this);
 	public Map<String, Long> posETime = Collections.synchronizedMap(new HashMap<String, Long> ());
 	static long[] recordTimes = { //(Minutes * 60) + seconds
-			((3*60)+3), //13
-			((3*60)+6), //cat
-			((5*60)+12), //blocks
+			((2*60)+58), //13
+			((3*60)+5), //cat
+			((5*60)+45), //blocks
 			((3*60)+5), //chirp
 			((2*60)+54), //far
 			((3*60)+17), //mall
-			((1*60)+37), //mellohi
+			((1*60)+36), //mellohi
 			((2*60)+30), //stal
-			((3*60)+9), //strad
-			((4*60)+10), //ward
-			((1*60)+10), //11
-			((3*60)+52)}; //wait
+			((3*60)+8), //strad
+			((4*60)+11), //ward
+			((1*60)+11), //11
+			((3*60)+51)}; //wait
 	
 	public void onEnable() {
 		PluginManager pm = getServer().getPluginManager();
@@ -83,7 +83,7 @@ public class RedstoneJukeboxTrig extends JavaPlugin{
 		else if(record == Material.RECORD_11){ //11
 			timeAdd = (recordTimes[10]);
 		}
-		else if(record == Material.RECORD_12){ //11
+		else if(record == Material.RECORD_12){ //wait
 			timeAdd = (recordTimes[11]);
 		}
 		
