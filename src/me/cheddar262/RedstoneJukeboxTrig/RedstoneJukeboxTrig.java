@@ -12,11 +12,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class RedstoneJukeboxTrig extends JavaPlugin{
-	Logger log = Logger.getLogger("Minecraft");
+	private Logger log = Logger.getLogger("Minecraft");
 	private final RJTBlockListener blockListener = new RJTBlockListener(this);
 	private final RJTPlayerListener playerListener = new RJTPlayerListener(this);
-	public Map<String, Long> posETime = Collections.synchronizedMap(new HashMap<String, Long> ());
-	static long[] recordTimes = { //(Minutes * 60) + seconds
+    private Map<String, Long> positionEndtimeMap = Collections.synchronizedMap(new HashMap<String, Long> ());
+	private static long[] recordTimes = { //(Minutes * 60) + seconds
 			((2*60)+58), //13
 			((3*60)+5), //cat
 			((5*60)+45), //blocks
@@ -29,7 +29,7 @@ public class RedstoneJukeboxTrig extends JavaPlugin{
 			((4*60)+11), //ward
 			((1*60)+11), //11
 			((3*60)+51)}; //wait
-	
+
 	public void onEnable() {
 		PluginManager pm = getServer().getPluginManager();
 		
@@ -39,57 +39,49 @@ public class RedstoneJukeboxTrig extends JavaPlugin{
 	}
 	public void onDisable() {
 		log.info("RedstoneJukeboxTrig has been disabled.");
-		
 	}	
-	
-	//public Map<String, Long> hashIt(String pos, long endTime) {
-		//posETime.put(pos, endTime);
-		//return posETime;
-	//}
 
-	public long findEndTime(long stTime, Material record) {
-		long end = 0;
-		long timeAdd = 0;
+
+	public long findEndTime(long startTime, Material record) {
+		long timeOffset = 0;
 		if(record == Material.GOLD_RECORD){ //13
-			timeAdd = (recordTimes[0]);
+			timeOffset = (recordTimes[0]);
 		}
 		else if(record == Material.GREEN_RECORD){ //cat
-			timeAdd = (recordTimes[1]);
+			timeOffset = (recordTimes[1]);
 		}
 		else if(record == Material.RECORD_3){ //blocks
-			timeAdd = (recordTimes[2]);
+			timeOffset = (recordTimes[2]);
 		}
 		else if(record == Material.RECORD_4){ //chirp
-			timeAdd = (recordTimes[3]);
+			timeOffset = (recordTimes[3]);
 		}
 		else if(record == Material.RECORD_5){ //far
-			timeAdd = (recordTimes[4]);
+			timeOffset = (recordTimes[4]);
 		}
 		else if(record == Material.RECORD_6){ //mall
-			timeAdd = (recordTimes[5]);
+			timeOffset = (recordTimes[5]);
 		}
 		else if(record == Material.RECORD_7){ //mellohi
-			timeAdd = (recordTimes[6]);
+			timeOffset = (recordTimes[6]);
 		}
 		else if(record == Material.RECORD_8){ //stal
-			timeAdd = (recordTimes[7]);
+			timeOffset = (recordTimes[7]);
 		}
 		else if(record == Material.RECORD_9){ //strad
-			timeAdd = (recordTimes[8]);
+			timeOffset = (recordTimes[8]);
 		}
 		else if(record == Material.RECORD_10){ //ward
-			timeAdd = (recordTimes[9]);
+			timeOffset = (recordTimes[9]);
 		}
 		else if(record == Material.RECORD_11){ //11
-			timeAdd = (recordTimes[10]);
+			timeOffset = (recordTimes[10]);
 		}
 		else if(record == Material.RECORD_12){ //wait
-			timeAdd = (recordTimes[11]);
+			timeOffset = (recordTimes[11]);
 		}
-		
-		timeAdd = timeAdd*1000;
-		end = stTime + timeAdd;
-		return end;
+
+		return startTime + timeOffset*1000;
 	}
 	
 	public Material getPlaying(Jukebox jb) {
@@ -100,4 +92,9 @@ public class RedstoneJukeboxTrig extends JavaPlugin{
 	        return Material.AIR;
 	    }
 	}
+
+
+    public Map<String, Long> getPositionEndtimeMap() {
+        return positionEndtimeMap;
+    }
 }
